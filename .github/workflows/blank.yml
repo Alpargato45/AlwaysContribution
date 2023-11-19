@@ -1,0 +1,28 @@
+name: Actualizar Fecha en Fichero
+#Jorge del Cid Moreno
+on:
+  schedule:
+    - cron: '0 1 * * *'
+
+jobs:
+  actualizar-fecha:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout del repositorio
+      uses: actions/checkout@v2
+
+    - name: Obtener fecha y hora
+      id: obtener-fecha
+      run: echo "::set-output name=fecha::$(date +'%Y-%m-%d %H:%M:%S %Z')"
+
+    - name: Actualizar fichero de fecha
+      run: echo "${{ steps.obtener-fecha.outputs.fecha }}" > fecha
+
+    - name: Confirmar y enviar cambios
+      run: |
+        git config --local user.email "actions@github.com"
+        git config --local user.name "GitHub Actions"
+        git add fecha
+        git commit -m "Actualizar fecha y hora"
+        git push
