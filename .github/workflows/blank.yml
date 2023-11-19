@@ -2,7 +2,7 @@ name: Actualizar Fecha en Fichero
 #Jorge del Cid Moreno
 on:
   schedule:
-    - cron: '25 23 * * *'
+    - cron: '32 23 * * *'
 
 jobs:
   actualizar-fecha:
@@ -21,8 +21,8 @@ jobs:
 
     - name: Confirmar y enviar cambios
       run: |
-        git config --local user.email "actions@github.com"
-        git config --local user.name "GitHub Actions"
+        git config --local user.email "jorgedelcid2004@gmail.com"
+        git config --local user.name "Alpargato45"
         git add fecha
-        git commit -m "Actualizar fecha y hora"
+        git commit -m "Actualización de fecha y hora: ${{ steps.obtener-fecha.outputs.fecha }}"
         git push
