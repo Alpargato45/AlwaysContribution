@@ -8,7 +8,7 @@ jobs:
 
     steps:
     - name: Checkout del repositorio
-      uses: actions/setup-node@v4
+      uses: actions/checkout@v2
 
     - name: Configurar Git
       run: gh auth login --with-token ${{ secrets.TOKEN_GITHUB }}
@@ -21,10 +21,14 @@ jobs:
 
     - name: Actualizar fichero de fecha
       run: echo "${{ steps.obtener-fecha.outputs.fecha }}" > fecha
-
+      
     - name: Confirmar y enviar cambios
       run: |
         git add fecha
         git commit -m "Actualización de fecha y hora: ${{ steps.obtener-fecha.outputs.fecha }}"
         git push
-
+    - name: Imprimir información del entorno
+      run: |
+        env
+        git remote -v
+        git branch -a
