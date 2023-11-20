@@ -11,7 +11,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Configurar Git
-      run: gh auth login --with-token < ${{ secrets.TOKEN_GITHUB }}
+      run: gh auth login --with-token ${{ secrets.TOKEN_GITHUB }}
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -27,3 +27,4 @@ jobs:
         git add fecha
         git commit -m "Actualización de fecha y hora: ${{ steps.obtener-fecha.outputs.fecha }}"
         git push
+
