@@ -23,7 +23,7 @@ jobs:
       CI_COMMIT_MESSAGE: Continuous Integration Build Artifacts
       CI_COMMIT_AUTHOR: Continuous Integration
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v2
       with:
         token: ${{ secrets.TOKEN_GITHUB }}
 
@@ -42,8 +42,6 @@ jobs:
       # Only run on main branch push (e.g. pull request merge).
       if: github.event_name == 'push'
       run: |
-        git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
-        git config --global user.email "jorgedelcid2004@gmail.com"
         git add fecha
         git commit -m "${{ env.CI_COMMIT_MESSAGE }}"
         git push
