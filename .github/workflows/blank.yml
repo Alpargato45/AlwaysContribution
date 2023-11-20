@@ -1,4 +1,3 @@
-# Jorge del Cid Moreno
 on:
   schedule:
     - cron: '40 10 * * *'
@@ -15,12 +14,17 @@ jobs:
       id: obtener-fecha
       run: echo "::set-output name=fecha::$(date +'%Y-%m-%d %H:%M:%S %Z')"
 
-    - name: Setup GitHub Script
-      uses: actions/github-script@v5
+    - name: Setup GitHub Token
+      id: setup
+      uses: actions/setup-node@v4
       with:
-        script: |
-          const token = process.env.GITHUB_TOKEN;
-          console.log(`::set-output name=token::${token}`);
+        node-version: '14'
+
+    - name: Obtener y establecer token
+      run: |
+        const token = process.env.GITHUB_TOKEN;
+        console.log(`::set-output name=token::${token}`);
+      shell: bash
 
     - name: Actualizar fichero de fecha
       run: echo "${{ steps.obtener-fecha.outputs.fecha }}" > fecha
