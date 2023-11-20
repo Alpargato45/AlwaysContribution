@@ -20,9 +20,9 @@ jobs:
       run: echo "${{ steps.obtener-fecha.outputs.fecha }}" > fecha
 
     - name: Confirmar y enviar cambios
-      run: |
-        git add fecha
-        git commit -m "Actualización de fecha y hora: ${{ steps.obtener-fecha.outputs.fecha }}"
-        git remote remove origin
-        git remote add origin https://Alpargato45:${{ secrets.TOKEN_GITHUB }}@github.com/Alpargato45/AlwaysContribution.git
-        git push
+  run: |
+    git add fecha
+    git commit -m "Actualización de fecha y hora: ${{ steps.obtener-fecha.outputs.fecha }}"
+    git remote remove origin
+    git remote add origin https://github.com/Alpargato45/AlwaysContribution.git
+    git push origin HEAD:${GITHUB_REF}
