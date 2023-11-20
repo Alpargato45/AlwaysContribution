@@ -12,12 +12,6 @@ jobs:
     - name: Checkout del repositorio
       uses: actions/checkout@v2
 
-    - name: Configurar entorno
-      run: |
-        cd $GITHUB_WORKSPACE
-        git config user.email "jorgedelcid2004@gmail.com"
-        git config user.name "Alpargato45"
-
     - name: Obtener fecha y hora
       id: obtener-fecha
       run: echo "::set-output name=fecha::$(date +'%Y-%m-%d %H:%M:%S %Z')"
