@@ -8,7 +8,7 @@ jobs:
 
     steps:
     - name: Checkout del repositorio
-      uses: actions/checkout@v2
+      uses: actions/setup-node@v4
 
     - name: Configurar Git
       run: gh auth login --with-token ${{ secrets.TOKEN_GITHUB }}
