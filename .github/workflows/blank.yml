@@ -10,21 +10,14 @@ jobs:
     - name: Checkout del repositorio
       uses: actions/checkout@v2
 
+    - name: Configurar Git
+      run: gh auth login --with-token < ${{ secrets.GITHUB_TOKEN }}
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Obtener fecha y hora
       id: obtener-fecha
       run: echo "::set-output name=fecha::$(date +'%Y-%m-%d %H:%M:%S %Z')"
-
-    - name: Setup GitHub Token
-      id: setup
-      uses: actions/setup-node@v4
-      with:
-        node-version: '14'
-
-    - name: Obtener y establecer token
-      run: |
-        const token = process.env.GITHUB_TOKEN;
-        console.log(`::set-output name=token::${token}`);
-      shell: bash
 
     - name: Actualizar fichero de fecha
       run: echo "${{ steps.obtener-fecha.outputs.fecha }}" > fecha
@@ -33,11 +26,4 @@ jobs:
       run: |
         git add fecha
         git commit -m "Actualización de fecha y hora: ${{ steps.obtener-fecha.outputs.fecha }}"
-        git config --local user.email "jorgedelcid2004@gmail.com"
-        git config --local user.name "Alpargato45"
-        git remote remove origin
-        git remote add origin https://github.com/Alpargato45/AlwaysContribution.git
-        git push origin HEAD:${GITHUB_REF}
-      env:
-        GITHUB_TOKEN: ${{ steps.setup.outputs.token }}
-
+        git push
