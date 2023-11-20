@@ -2,7 +2,7 @@ name: Actualizar Fecha en Fichero
 # Jorge del Cid Moreno
 on:
   schedule:
-    - cron: '32 23 * * *'
+    - cron: '40 10 * * *'
 
 jobs:
   actualizar-fecha:
