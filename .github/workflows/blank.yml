@@ -10,11 +10,6 @@ jobs:
     - name: Checkout del repositorio
       uses: actions/checkout@v2
 
-    - name: Configurar Git
-      run: gh auth login --with-token ${{ secrets.TOKEN_GITHUB }}
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
     - name: Obtener fecha y hora
       id: obtener-fecha
       run: echo "::set-output name=fecha::$(date +'%Y-%m-%d %H:%M:%S %Z')"
@@ -22,13 +17,13 @@ jobs:
     - name: Actualizar fichero de fecha
       run: echo "${{ steps.obtener-fecha.outputs.fecha }}" > fecha
       
-    - name: Confirmar y enviar cambios
+    - name: GIT commit and push docs
+      env: 
+        CI_COMMIT_MESSAGE: Continuous Integration Build Artifacts
+        CI_COMMIT_AUTHOR: Continuous Integration
       run: |
-        git add fecha
-        git commit -m "Actualización de fecha y hora: ${{ steps.obtener-fecha.outputs.fecha }}"
+        git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
+        git config --global user.email "username@users.noreply.github.com"
+        git add docs
+        git commit -m "${{ env.CI_COMMIT_MESSAGE }}"
         git push
-    - name: Imprimir información del entorno
-      run: |
-        env
-        git remote -v
-        git branch -a
