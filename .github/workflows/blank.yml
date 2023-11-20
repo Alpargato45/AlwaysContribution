@@ -16,14 +16,34 @@ jobs:
 
     - name: Actualizar fichero de fecha
       run: echo "${{ steps.obtener-fecha.outputs.fecha }}" > fecha
-      
-    - name: GIT commit and push docs
-      env: 
-        CI_COMMIT_MESSAGE: Continuous Integration Build Artifacts
-        CI_COMMIT_AUTHOR: Continuous Integration
+
+  build:
+    runs-on: ubuntu-latest
+    env: 
+      CI_COMMIT_MESSAGE: Continuous Integration Build Artifacts
+      CI_COMMIT_AUTHOR: Continuous Integration
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.TOKEN_GITHUB }}
+
+    # Build steps
+    - uses: actions/setup-node@v3
+      with:
+        node-version: '12' 
+    - name: Node Install
+      run: npm ci
+    - name: Node Build (fecha)
+      run: npm run package
+
+    # Commit and push all changed files. 
+    # Must only affect files that are listed in "paths-ignore".
+    - name: GIT Commit Build Artifacts (fecha)
+      # Only run on main branch push (e.g. pull request merge).
+      if: github.event_name == 'push'
       run: |
         git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
         git config --global user.email "jorgedelcid2004@gmail.com"
-        git add docs
+        git add fecha
         git commit -m "${{ env.CI_COMMIT_MESSAGE }}"
         git push
